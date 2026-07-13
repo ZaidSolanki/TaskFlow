@@ -60,9 +60,11 @@ while running:
     # View Tasks
     # -----------------------------
     elif menu_choice == "2":
+
         if len(tasks) == 0:
             print("No tasks available. Please add a task first.")
             continue
+
         else:
             # Display all tasks
             print("\n===== Task List =====")
@@ -79,7 +81,72 @@ while running:
     # Edit Task
     # -----------------------------
     elif menu_choice == "3":
-        print("Feature Coming Soon...")
+
+        # Check if any task exists
+        if len(tasks) == 0:
+            print("No tasks available. Please add a task first.")
+
+        else:
+
+            # Show all tasks
+            print("\n===== Select a Task to Edit =====")
+
+            count = 1
+
+            for task in tasks:
+                print(f"{count}. {task['title']}")
+                count += 1
+
+            # Take task number
+            task_number = int(
+                input("\nEnter the number of the task you want to edit: ")
+            )
+
+            # Validate task number
+            if task_number < 1 or task_number > len(tasks):
+                print("Invalid task number. Please try again.")
+
+            else:
+
+                # Get the selected task
+                selected_task = tasks[task_number - 1]
+
+                # Edit Menu
+                print("\n===== Edit Menu =====")
+                print("1. Edit Title")
+                print("2. Edit Description")
+                print("3. Edit Priority")
+                print("4. Edit Due Date")
+                print("5. Cancel")
+
+                edit_choice = input("Enter your choice: ")
+
+                # Edit Title
+                if edit_choice == "1":
+
+                    print("\n===== Edit Title =====")
+                    print(f"Current Title : {selected_task['title']}")
+
+                    new_title = input("Enter New Title: ")
+
+                    selected_task["title"] = new_title
+
+                    print("\n✅ Title updated successfully!")
+
+                elif edit_choice == "2":
+                    print("Edit Description feature coming soon...")
+
+                elif edit_choice == "3":
+                    print("Edit Priority feature coming soon...")
+
+                elif edit_choice == "4":
+                    print("Edit Due Date feature coming soon...")
+
+                elif edit_choice == "5":
+                    print("Edit cancelled.")
+
+                else:
+                    print("Invalid choice.")
 
     # -----------------------------
     # Mark Task as Completed
