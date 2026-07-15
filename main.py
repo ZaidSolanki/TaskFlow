@@ -2,17 +2,8 @@
 # TaskFlow - Version 1.2
 # -----------------------------
 
-# Store all tasks (Application starts with an empty task list)
-tasks = []
-
-# Shows the application is running
-running = True
-
-while running:
-
-    # -----------------------------
-    # Menu
-    # -----------------------------
+#function to print menu
+def show_menu():
     print("\n=========================")
     print("        TASKFLOW         ")
     print("=========================")
@@ -22,13 +13,25 @@ while running:
     print("4. Mark Task as Completed")
     print("5. Exit")
 
-    # Select an option from the menu
-    menu_choice = input("Enter your choice (1-5): ")
+#function to view tasks
+def view_tasks(tasks):
+    if len(tasks) == 0:
+        print("No tasks available. Please add a task first.")
+        return
 
-    # -----------------------------
-    # Add Task
-    # -----------------------------
-    if menu_choice == "1":
+    print("\n===== Task List =====")
+
+    for task in tasks:
+        print(f"Title       : {task['title']}")
+        print(f"Description : {task['description']}")
+        print(f"Priority    : {task['priority']}")
+        print(f"Due Date    : {task['due_date']}")
+        print(f"Completed   : {task['completed']}")
+        print("-" * 30)
+
+#function to add a task
+def add_task(tasks):
+    
 
         continue_choice = "yes"
 
@@ -56,33 +59,9 @@ while running:
                 "Do you want to add another task? (yes/no): "
             ).lower()
 
-    # -----------------------------
-    # View Tasks
-    # -----------------------------
-    elif menu_choice == "2":
-
-        if len(tasks) == 0:
-            print("No tasks available. Please add a task first.")
-            continue
-
-        else:
-            # Display all tasks
-            print("\n===== Task List =====")
-
-            for task in tasks:
-                print(f"Title       : {task['title']}")
-                print(f"Description : {task['description']}")
-                print(f"Priority    : {task['priority']}")
-                print(f"Due Date    : {task['due_date']}")
-                print(f"Completed   : {task['completed']}")
-                print("-" * 30)
-
-    # -----------------------------
-    # Edit Task
-    # -----------------------------
-    elif menu_choice == "3":
-
-        # Check if any task exists
+#function to edit a task
+def edit_task(tasks):
+    # Check if any task exists
         if len(tasks) == 0:
             print("No tasks available. Please add a task first.")
 
@@ -147,6 +126,42 @@ while running:
 
                 else:
                     print("Invalid choice.")
+
+
+# Store all tasks (Application starts with an empty task list)
+tasks = []
+
+# Shows the application is running
+running = True
+
+while running:
+
+    # -----------------------------
+    # Menu
+    # -----------------------------
+    show_menu()
+
+    # Select an option from the menu
+    menu_choice = input("Enter your choice (1-5): ")
+
+    # -----------------------------
+    # Add Task
+    # -----------------------------
+    if menu_choice == "1":
+        add_task(tasks)
+
+    # -----------------------------
+    # View Tasks
+    # -----------------------------
+    elif menu_choice == "2":
+        view_tasks(tasks)
+
+    # -----------------------------
+    # Edit Task
+    # -----------------------------
+    elif menu_choice == "3":
+        edit_task(tasks)   
+        
 
     # -----------------------------
     # Mark Task as Completed
