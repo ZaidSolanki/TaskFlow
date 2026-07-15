@@ -113,13 +113,34 @@ def edit_task(tasks):
                     print("\n✅ Title updated successfully!")
 
                 elif edit_choice == "2":
-                    print("Edit Description feature coming soon...")
+                    print("\n===== Edit Description =====")
+                    print(f"Current Description : {selected_task['description']}")
+
+                    new_description = input("Enter New Description: ")
+
+                    selected_task["description"] = new_description
+
+                    print("\n✅ Description updated successfully!")
 
                 elif edit_choice == "3":
-                    print("Edit Priority feature coming soon...")
+                    print("\n===== Edit Priority =====")
+                    print(f"Current Priority : {selected_task['priority']}")
+
+                    new_priority = input("Enter New Priority: ")
+
+                    selected_task["priority"] = new_priority
+
+                    print("\n✅ Priority updated successfully!")
 
                 elif edit_choice == "4":
-                    print("Edit Due Date feature coming soon...")
+                    print("\n===== Edit Due Date =====")
+                    print(f"Current Due Date : {selected_task['due_date']}")
+
+                    new_due_date = input("Enter New Due Date: ")
+
+                    selected_task["due_date"] = new_due_date
+
+                    print("\n✅ Due Date updated successfully!")
 
                 elif edit_choice == "5":
                     print("Edit cancelled.")
@@ -161,7 +182,6 @@ while running:
     # -----------------------------
     elif menu_choice == "3":
         edit_task(tasks)   
-        
 
     # -----------------------------
     # Mark Task as Completed
