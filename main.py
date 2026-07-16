@@ -13,6 +13,34 @@ def show_menu():
     print("4. Mark Task as Completed")
     print("5. Exit")
 
+#function to add a task
+def add_task(tasks):
+    continue_choice = "yes"
+
+    while continue_choice == "yes":
+
+        # Take input from the user
+        title = input("Enter Task Title: ")
+        description = input("Enter Task Description: ")
+        priority = input("Enter Task Priority: ")
+        due_date = input("Enter Task Due Date: ")
+
+        # Create a task (Dictionary)
+        task = {
+            "title": title,
+            "description": description,
+            "priority": priority,
+            "due_date": due_date,
+            "completed": False
+        }
+
+        # Add the task to the tasks list
+        tasks.append(task)
+
+        continue_choice = input(
+            "Do you want to add another task? (yes/no): "
+        ).lower()
+
 #function to view tasks
 def view_tasks(tasks):
     if len(tasks) == 0:
@@ -29,124 +57,99 @@ def view_tasks(tasks):
         print(f"Completed   : {task['completed']}")
         print("-" * 30)
 
-#function to add a task
-def add_task(tasks):
-    
-
-        continue_choice = "yes"
-
-        while continue_choice == "yes":
-
-            # Take input from the user
-            title = input("Enter Task Title: ")
-            description = input("Enter Task Description: ")
-            priority = input("Enter Task Priority: ")
-            due_date = input("Enter Task Due Date: ")
-
-            # Create a task (Dictionary)
-            task = {
-                "title": title,
-                "description": description,
-                "priority": priority,
-                "due_date": due_date,
-                "completed": False
-            }
-
-            # Add the task to the tasks list
-            tasks.append(task)
-
-            continue_choice = input(
-                "Do you want to add another task? (yes/no): "
-            ).lower()
-
 #function to edit a task
 def edit_task(tasks):
-    # Check if any task exists
-        if len(tasks) == 0:
-            print("No tasks available. Please add a task first.")
+    selected_task = select_task(tasks)
+
+    if selected_task is not None:
+
+        # Edit Menu
+        print("\n===== Edit Menu =====")
+        print("1. Edit Title")
+        print("2. Edit Description")
+        print("3. Edit Priority")
+        print("4. Edit Due Date")
+        print("5. Cancel")
+
+        edit_choice = input("Enter your choice: ")
+
+        # Edit Title
+        if edit_choice == "1":
+
+            print("\n===== Edit Title =====")
+            print(f"Current Title : {selected_task['title']}")
+
+            new_title = input("Enter New Title: ")
+
+            selected_task["title"] = new_title
+
+            print("\n✅ Title updated successfully!")
+
+        elif edit_choice == "2":
+            print("\n===== Edit Description =====")
+            print(f"Current Description : {selected_task['description']}")
+
+            new_description = input("Enter New Description: ")
+
+            selected_task["description"] = new_description
+
+            print("\n✅ Description updated successfully!")
+
+        elif edit_choice == "3":
+            print("\n===== Edit Priority =====")
+            print(f"Current Priority : {selected_task['priority']}")
+
+            new_priority = input("Enter New Priority: ")
+
+            selected_task["priority"] = new_priority
+
+            print("\n✅ Priority updated successfully!")
+
+        elif edit_choice == "4":
+            print("\n===== Edit Due Date =====")
+            print(f"Current Due Date : {selected_task['due_date']}")
+
+            new_due_date = input("Enter New Due Date: ")
+
+            selected_task["due_date"] = new_due_date
+
+            print("\n✅ Due Date updated successfully!")
+
+        elif edit_choice == "5":
+            print("Edit cancelled.")
 
         else:
+            print("Invalid choice.")
 
-            # Show all tasks
-            print("\n===== Select a Task to Edit =====")
+#Function to select a task
+def select_task(tasks):
+    # Check if any task exists
+    if len(tasks) == 0:
+        print("No tasks available. Please add a task first.")
+        return None
 
-            count = 1
+    # Show all tasks
+    print("\n===== Select a Task =====")
 
-            for task in tasks:
-                print(f"{count}. {task['title']}")
-                count += 1
+    count = 1
 
-            # Take task number
-            task_number = int(
-                input("\nEnter the number of the task you want to edit: ")
-            )
+    for task in tasks:
+        print(f"{count}. {task['title']}")
+        count += 1
 
-            # Validate task number
-            if task_number < 1 or task_number > len(tasks):
-                print("Invalid task number. Please try again.")
+    # Take task number
+    task_number = int(
+        input("\nEnter the number of the task you want to select: ")
+    )
 
-            else:
+    # Validate task number
+    if task_number < 1 or task_number > len(tasks):
+        print("Invalid task number. Please try again.")
+        return None
 
-                # Get the selected task
-                selected_task = tasks[task_number - 1]
-
-                # Edit Menu
-                print("\n===== Edit Menu =====")
-                print("1. Edit Title")
-                print("2. Edit Description")
-                print("3. Edit Priority")
-                print("4. Edit Due Date")
-                print("5. Cancel")
-
-                edit_choice = input("Enter your choice: ")
-
-                # Edit Title
-                if edit_choice == "1":
-
-                    print("\n===== Edit Title =====")
-                    print(f"Current Title : {selected_task['title']}")
-
-                    new_title = input("Enter New Title: ")
-
-                    selected_task["title"] = new_title
-
-                    print("\n✅ Title updated successfully!")
-
-                elif edit_choice == "2":
-                    print("\n===== Edit Description =====")
-                    print(f"Current Description : {selected_task['description']}")
-
-                    new_description = input("Enter New Description: ")
-
-                    selected_task["description"] = new_description
-
-                    print("\n✅ Description updated successfully!")
-
-                elif edit_choice == "3":
-                    print("\n===== Edit Priority =====")
-                    print(f"Current Priority : {selected_task['priority']}")
-
-                    new_priority = input("Enter New Priority: ")
-
-                    selected_task["priority"] = new_priority
-
-                    print("\n✅ Priority updated successfully!")
-
-                elif edit_choice == "4":
-                    print("\n===== Edit Due Date =====")
-                    print(f"Current Due Date : {selected_task['due_date']}")
-
-                    new_due_date = input("Enter New Due Date: ")
-
-                    selected_task["due_date"] = new_due_date
-
-                    print("\n✅ Due Date updated successfully!")
-
-                elif edit_choice == "5":
-                    print("Edit cancelled.")
-
-                else:
-                    print("Invalid choice.")
+    # Get the selected task
+    selected_task = tasks[task_number - 1]
+    return selected_task
 
 
 # Store all tasks (Application starts with an empty task list)
@@ -187,7 +190,11 @@ while running:
     # Mark Task as Completed
     # -----------------------------
     elif menu_choice == "4":
-        print("Feature Coming Soon...")
+        selected_task = select_task(tasks)
+
+        if selected_task is not None:
+            selected_task["completed"] = True
+            print(f"\n✅ Task '{selected_task['title']}' marked as completed!!")
 
     # -----------------------------
     # Exit
