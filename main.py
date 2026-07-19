@@ -1,3 +1,5 @@
+import json
+
 # -----------------------------
 # TaskFlow - Version 1.2
 # -----------------------------
@@ -11,7 +13,8 @@ def show_menu():
     print("2. View Tasks")
     print("3. Edit Task")
     print("4. Mark Task as Completed")
-    print("5. Exit")
+    print("5. Delete Task")
+    print("6. Exit")
 
 #function to add a task
 def add_task(tasks):
@@ -36,6 +39,7 @@ def add_task(tasks):
 
         # Add the task to the tasks list
         tasks.append(task)
+        save_tasks(tasks)
 
         continue_choice = input(
             "Do you want to add another task? (yes/no): "
@@ -82,6 +86,7 @@ def edit_task(tasks):
             new_title = input("Enter New Title: ")
 
             selected_task["title"] = new_title
+            save_tasks(tasks)
 
             print("\n✅ Title updated successfully!")
 
@@ -92,7 +97,8 @@ def edit_task(tasks):
             new_description = input("Enter New Description: ")
 
             selected_task["description"] = new_description
-
+            save_tasks(tasks)
+            
             print("\n✅ Description updated successfully!")
 
         elif edit_choice == "3":
@@ -102,6 +108,7 @@ def edit_task(tasks):
             new_priority = input("Enter New Priority: ")
 
             selected_task["priority"] = new_priority
+            save_tasks(tasks)
 
             print("\n✅ Priority updated successfully!")
 
@@ -112,6 +119,7 @@ def edit_task(tasks):
             new_due_date = input("Enter New Due Date: ")
 
             selected_task["due_date"] = new_due_date
+            save_tasks(tasks)
 
             print("\n✅ Due Date updated successfully!")
 
@@ -120,6 +128,25 @@ def edit_task(tasks):
 
         else:
             print("Invalid choice.")
+
+#function to mark a task as completed
+def mark_task_completed(tasks):
+    selected_task = select_task(tasks)
+
+    if selected_task is not None:
+        selected_task["completed"] = True
+        save_tasks(tasks)
+        
+        print(f"\n✅ Task '{selected_task['title']}' marked as completed!")
+
+#function to delete a task
+def delete_task(tasks):
+    selected_task = select_task(tasks)
+
+    if selected_task is not None:
+        tasks.remove(selected_task)
+        save_tasks(tasks)
+        print(f"\n✅ Task '{selected_task['title']}' deleted successfully!")
 
 #Function to select a task
 def select_task(tasks):
@@ -151,9 +178,22 @@ def select_task(tasks):
     selected_task = tasks[task_number - 1]
     return selected_task
 
+#save tasks to a JSON file
+def save_tasks(tasks):
+    with open("tasks.json", "w") as file:
+        json.dump(tasks, file, indent=4)
+
+#function to load tasks from a JSON file
+def load_tasks():
+    try:
+        with open("tasks.json", "r") as file:
+            tasks = json.load(file)
+            return tasks
+    except FileNotFoundError:
+        return []
 
 # Store all tasks (Application starts with an empty task list)
-tasks = []
+tasks = load_tasks()
 
 # Shows the application is running
 running = True
@@ -166,7 +206,7 @@ while running:
     show_menu()
 
     # Select an option from the menu
-    menu_choice = input("Enter your choice (1-5): ")
+    menu_choice = input("Enter your choice (1-6): ")
 
     # -----------------------------
     # Add Task
@@ -190,16 +230,18 @@ while running:
     # Mark Task as Completed
     # -----------------------------
     elif menu_choice == "4":
-        selected_task = select_task(tasks)
+        mark_task_completed(tasks)
 
-        if selected_task is not None:
-            selected_task["completed"] = True
-            print(f"\n✅ Task '{selected_task['title']}' marked as completed!!")
+    # -----------------------------
+    # Delete Task
+    # -----------------------------
+    elif menu_choice == "5":
+        delete_task(tasks)
 
     # -----------------------------
     # Exit
     # -----------------------------
-    elif menu_choice == "5":
+    elif menu_choice == "6":
         print("Thank you for using TaskFlow ❤️")
         running = False
 
@@ -207,4 +249,4 @@ while running:
     # Invalid Choice
     # -----------------------------
     else:
-        print("Invalid choice! Please enter a number between 1 and 5.")
+        print("Invalid choice! Please enter a number between 1 and 6.")
