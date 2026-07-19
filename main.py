@@ -14,7 +14,8 @@ def show_menu():
     print("3. Edit Task")
     print("4. Mark Task as Completed")
     print("5. Delete Task")
-    print("6. Exit")
+    print("6. Search Tasks")
+    print("7. Exit")
 
 # function to add a task
 def add_task(tasks):
@@ -202,6 +203,31 @@ def load_tasks():
             return tasks
     except FileNotFoundError:
         return []
+    
+#function to search tasks by title
+def search_tasks(tasks):
+    search_word = input("Search tasks: ").lower()
+    matching_tasks = []
+    for task in tasks:
+        if search_word in task["title"].lower():
+            matching_tasks.append(task)
+    return matching_tasks
+
+#function to view search results
+def view_search_results(matching_tasks):
+    if len(matching_tasks) == 0:
+        print("No matching tasks found.")
+        return
+
+    print("\n===== Search Results =====")
+
+    for task in matching_tasks:
+        print(f"Title       : {task['title']}")
+        print(f"Description : {task['description']}")
+        print(f"Priority    : {task['priority']}")
+        print(f"Due Date    : {task['due_date']}")
+        print(f"Completed   : {task['completed']}")
+        print("-" * 30)
 
 # Store all tasks (Application starts with an empty task list)
 tasks = load_tasks()
@@ -217,12 +243,12 @@ while running:
     show_menu()
     
     while True:
-        menu_choice = input("Enter your choice (1-6): ")
+        menu_choice = input("Enter your choice (1-7): ")
 
-        if menu_choice in ("1", "2", "3", "4", "5", "6"):
+        if menu_choice in ("1", "2", "3", "4", "5", "6", "7"):
             break
 
-        print("❌ Invalid choice! Please enter 1-6.")
+        print("❌ Invalid choice! Please enter 1-7.")
 
     # -----------------------------
     # Add Task
@@ -255,8 +281,14 @@ while running:
         delete_task(tasks)
 
     # -----------------------------
-    # Exit
+    # Search Tasks
     # -----------------------------
     elif menu_choice == "6":
+        matching_tasks = search_tasks(tasks)
+        view_search_results(matching_tasks)
+
+    # Exit
+    # -----------------------------
+    elif menu_choice == "7":
         print("Thank you for using TaskFlow ❤️")
         running = False
