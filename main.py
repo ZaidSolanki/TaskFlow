@@ -15,7 +15,8 @@ def show_menu():
     print("4. Mark Task as Completed")
     print("5. Delete Task")
     print("6. Search Tasks")
-    print("7. Exit")
+    print("7. Filter Tasks")
+    print("8. Exit")
 
 # function to add a task
 def add_task(tasks):
@@ -137,6 +138,39 @@ def edit_task(tasks):
         else:
             print("Invalid choice.")
 
+#function to show filter menu
+def show_filter_menu():
+    print("\n===== Filter Tasks =====")
+    print("1. Completed Tasks")
+    print("2. Pending Tasks")
+    print("3. High Priority Tasks")
+    print("4. Medium Priority Tasks")
+    print("5. Low Priority Tasks")
+    print("6. Back")
+
+#function to filter tasks
+def filter_tasks(tasks, choice):
+    filtered_tasks = []
+
+    for task in tasks:
+
+        if choice == "1" and task["completed"] == True:
+            filtered_tasks.append(task)
+
+        elif choice == "2" and task["completed"] == False:
+            filtered_tasks.append(task)
+
+        elif choice == "3" and task["priority"].lower() == "high":
+            filtered_tasks.append(task)
+
+        elif choice == "4" and task["priority"].lower() == "medium":
+            filtered_tasks.append(task)
+
+        elif choice == "5" and task["priority"].lower() == "low":
+            filtered_tasks.append(task)
+
+    return filtered_tasks
+
 #function to mark a task as completed
 def mark_task_completed(tasks):
     selected_task = select_task(tasks)
@@ -243,12 +277,12 @@ while running:
     show_menu()
     
     while True:
-        menu_choice = input("Enter your choice (1-7): ")
+        menu_choice = input("Enter your choice (1-8): ")
 
-        if menu_choice in ("1", "2", "3", "4", "5", "6", "7"):
+        if menu_choice in ("1", "2", "3", "4", "5", "6", "7", "8"):
             break
 
-        print("❌ Invalid choice! Please enter 1-7.")
+        print("❌ Invalid choice! Please enter 1-8.")
 
     # -----------------------------
     # Add Task
@@ -286,9 +320,26 @@ while running:
     elif menu_choice == "6":
         matching_tasks = search_tasks(tasks)
         view_search_results(matching_tasks)
-
-    # Exit
+    # -----------------------------
+    # Filter Tasks  
     # -----------------------------
     elif menu_choice == "7":
+        while True:
+            show_filter_menu()
+            filter_choice = input("Enter your choice (1-6): ")
+    
+            if filter_choice in ("1", "2", "3", "4", "5"):
+                filtered_tasks = filter_tasks(tasks, filter_choice)
+                view_tasks(filtered_tasks)
+                break
+    
+            elif filter_choice == "6":
+                break
+    
+            else:
+                print("❌ Invalid choice! Please enter 1-6.")
+    # Exit
+    # -----------------------------
+    elif menu_choice == "8":
         print("Thank you for using TaskFlow ❤️")
         running = False
