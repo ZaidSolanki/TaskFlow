@@ -215,9 +215,14 @@ while running:
     # Menu
     # -----------------------------
     show_menu()
+    
+    while True:
+        menu_choice = input("Enter your choice (1-6): ")
 
-    # Select an option from the menu
-    menu_choice = input("Enter your choice (1-6): ")
+        if menu_choice in ("1", "2", "3", "4", "5", "6"):
+            break
+
+        print("❌ Invalid choice! Please enter 1-6.")
 
     # -----------------------------
     # Add Task
@@ -255,9 +260,3 @@ while running:
     elif menu_choice == "6":
         print("Thank you for using TaskFlow ❤️")
         running = False
-
-    # -----------------------------
-    # Invalid Choice
-    # -----------------------------
-    else:
-        print("Invalid choice! Please enter a number between 1 and 6.")
