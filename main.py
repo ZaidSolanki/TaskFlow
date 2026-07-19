@@ -16,7 +16,7 @@ def show_menu():
     print("5. Delete Task")
     print("6. Exit")
 
-#function to add a task
+# function to add a task
 def add_task(tasks):
     continue_choice = "yes"
 
@@ -41,9 +41,16 @@ def add_task(tasks):
         tasks.append(task)
         save_tasks(tasks)
 
-        continue_choice = input(
-            "Do you want to add another task? (yes/no): "
-        ).lower()
+        # Ask until user enters yes or no
+        while True:
+            continue_choice = input(
+                "Do you want to add another task? (yes/no): "
+            ).lower()
+
+            if continue_choice == "yes" or continue_choice == "no":
+                break
+
+            print("❌ Invalid input. Please enter yes or no.")
 
 #function to view tasks
 def view_tasks(tasks):
@@ -165,9 +172,13 @@ def select_task(tasks):
         count += 1
 
     # Take task number
-    task_number = int(
-        input("\nEnter the number of the task you want to select: ")
-    )
+    try:
+        task_number = int(
+            input("\nEnter the number of the task you want to select: ")
+        )
+    except ValueError:
+        print("Invalid input. Please enter a valid number.")
+        return None
 
     # Validate task number
     if task_number < 1 or task_number > len(tasks):
